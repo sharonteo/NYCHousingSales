@@ -1,0 +1,80 @@
+---
+title: "ManhattanSalesAnalysis"
+author: "Oscar Padilla"
+date: "June 6, 2016"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+#MANHATTAN HOUSING DATA ANALYSIS
+
+*CODE Extracted from: O'Neil, Cathy; Schutt, Rachel (2013-10-09). Doing Data Science: Straight Talk from the Frontline*
+
+It requires the packages gdata and plyr
+
+```{r}
+require(plyr)
+require(gdata)
+library(plyr)
+library(gdata)
+```
+
+Now we will be reading the Excel file downloaded from [The Official Website of the City of New York](http://www1.nyc.gov/home/search/index.page?search-terms=Rolling+sales+update)
+
+```{r}
+manhattansales <- read.xls("Data/rollingsales_manhattan.xls", pattern ="BOROUGH")
+str(manhattansales)
+```
+
+##Data Cleansing
+
+Clean and format the data with regular expressions
+
+```{r}
+#convert variable SALE.PRICE from factor into numeric and get rid off of leading digits
+manhattansales$SALE.PRICE.N <- as.numeric(gsub("[^[:digit:]]","", manhattansales$SALE.PRICE))
+#make all variable names lower case
+names(manhattansales) <- tolower(names(manhattansales))
+#convert other numeric variables, as well as, date variables
+manhattansales $ gross.sqft <- as.numeric(gsub("[^[:digit:]]","", manhattansales $ gross.square.feet))
+manhattansales$land.sqft <- as.numeric(gsub("[^[:digit:]]","", manhattansales $ land.square.feet))
+manhattansales$sale.date <- as.Date(manhattansales$sale.date)
+manhattansales$year.built <- as.numeric(as.character(manhattansales$year.built))
+str(manhattansales)
+```
+
+##Data Selection
+
+Keep only the actual sales (*manhattansales.sale) and family homes ONLY
+
+```{r}
+manhattansales.sale <- manhattansales[manhattansales$sale.price.n!=0,]
+manhattansales.homes <- manhattansales.sale[which(grepl("FAMILY", manhattansales.sale$building.class.category)),]
+summary(manhattansales.homes)
+```
+
+Out of a total of `r nrow(manhattansales)` of the original file, only `r nrow(manhattansales.homes)` are actual sales and family homes
+
+##Outliers Elimination
+
+Remove outliers that seem like they weren't actual sales
+
+```{r}
+manhattansales.homes$outliers <- (log10(manhattansales.homes$sale.price.n) <=5) + 0
+manhattansales.homes <- manhattansales.homes[which(manhattansales.homes$outliers == 0),]
+```
+
+By eliminating log10(sales.price.n) <= 5 we end up with `r nrow(manhattansales.homes)` rows
+
+Finally, let's plot the relation between sales price vs. square footage
+
+```{r}
+plot(manhattansales.homes$gross.sqft, manhattansales.homes$sale.price.n)
+#Logarithmic Scale
+plot(log10(manhattansales.homes$gross.sqft),log10(manhattansales.homes$sale.price.n))
+```
