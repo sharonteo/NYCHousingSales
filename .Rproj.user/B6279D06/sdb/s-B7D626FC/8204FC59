@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"HW4_CLT\"\nauthor: \"Oscar Padilla\"\ndate: \"June 5, 2016\"\noutput: \n  html_document:\n    keep_md: true\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n#Week 4 Homework\n##Central Limit Theorem CLT\n\nIn order to illustrate the CLT in R, I wrote the following function, *BootStrapFunction* which takes a *NumberofSamples* of *SampleSize* from a given *distribution* and calculates its mean for each iteration and generates an histogram as an output\n\n```{r}\nBootStrapFunction <- function(distribution, SampleSize, NumberofSamples){\nBootStrapMean <- numeric(NumberofSamples)\nfor(i in 1:NumberofSamples){\nbootstrapsample <- sample(distribution, size = SampleSize, replace = TRUE)\nBootStrapMean[i] <- mean(bootstrapsample)\n}\nhist(BootStrapMean, sub=paste(\"Mean =\",mean(BootStrapMean),\"SD =\",sd(BootStrapMean)))\n}\n```\n\nNow, let's generate 2 different distributions, the first is normal ($\\mu$ = 1200, $\\sigma$ =20), the second is exponential (rate = 0.01)\n\n```{r}\nPopulation_Normal_Dist <- rnorm (1000, 1200, 20) #My first population is normally distributed with a mean of 1200 and a sd of 20\nhist(Population_Normal_Dist, sub=paste(\"Mean =\",mean(Population_Normal_Dist),\"SD =\",sd(Population_Normal_Dist)))\nPopulation_Expo_Dist <- rexp(10000, 0.01) #My second population is exponentially distributed with a rate of 0.01\nhist(Population_Expo_Dist, sub=paste(\"Mean =\",mean(Population_Expo_Dist),\"SD =\",sd(Population_Expo_Dist)))\n```\n\n## CLT ON NORMAL DISTRIBUTION\n\nNow let's try the *BootStrapFunction* against the normal distribution, with a sample size of 25\n\n```{r}\nBootStrapFunction(Population_Normal_Dist, 25, 1000)\n```\n\nIf we increase the sample size to 100\n\n```{r}\nBootStrapFunction(Population_Normal_Dist, 100, 1000)\n```\n\nThe standard deviation of the population `r sd(Population_Normal_Dist)` divided by the square root of the *SampleSize* approximates to `r sd(Population_Normal_Dist)/sqrt(100)`\n\n## CLT ON EXPONENTIAL DISTRIBUTION\n\nNow let's try the *BootStrapFunction* against the Exponential distribution, with a sample size of 25\n\n```{r}\nBootStrapFunction(Population_Expo_Dist, 25, 1000)\n```\n\nIf we increase the sample size to 100\n\n```{r}\nBootStrapFunction(Population_Expo_Dist, 100, 1000)\n```\n\nThe standard deviation of the population `r sd(Population_Expo_Dist)` divided by the square root of the sample size approximates to `r sd(Population_Expo_Dist)/sqrt(100)`",
+    "created" : 1465191678551.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1592914512",
+    "id" : "8204FC59",
+    "lastKnownWriteTime" : 1465171135,
+    "last_content_update" : 1465171135,
+    "path" : "~/Documents/MSDS6306/HW4/HW4.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
