@@ -1,0 +1,12 @@
+---
+title: "New York City Housing Analysis Findings"
+author: "Harry Bashin, Oscar Padilla, Joseph Stoffa, Sharon Teo"
+date: "June 6, 2016"
+output: html_document
+---
+
+## Findings
+
+In conclusion, the scatterplot of square footage vs sale price in Manhattan shows inconclusive results. Variables such as neighborhood and year the housing was built is affecting the the outcome of the results and producing a non-linear graph
+
+Further analysis will be needed to reclassify the sale price and square footage by neighborhood to get more meaningful results
