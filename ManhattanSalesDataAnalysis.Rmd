@@ -78,3 +78,13 @@ plot(manhattansales.homes$gross.sqft, manhattansales.homes$sale.price.n)
 #Logarithmic Scale
 plot(log10(manhattansales.homes$gross.sqft),log10(manhattansales.homes$sale.price.n))
 ```
+
+#Data Segmentation
+
+Upper East Side ONLY
+
+```{r}
+manhattansales.uppereast <- manhattansales.homes[which(grepl("UPPER EAST",manhattansales.homes$neighborhood)),]
+plot(manhattansales.homes$gross.sqft, manhattansales.homes$sale.price.n)
+plot(log10(manhattansales.homes$gross.sqft), log10(manhattansales.homes$sale.price.n))
+```

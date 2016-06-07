@@ -260,3 +260,21 @@ plot(log10(manhattansales.homes$gross.sqft),log10(manhattansales.homes$sale.pric
 ```
 
 ![](ManhattanSalesDataAnalysis_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
+
+#Data Segmentation
+
+Upper East Side ONLY
+
+
+```r
+manhattansales.uppereast <- manhattansales.homes[which(grepl("UPPER EAST",manhattansales.homes$neighborhood)),]
+plot(manhattansales.homes$gross.sqft, manhattansales.homes$sale.price.n)
+```
+
+![](ManhattanSalesDataAnalysis_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
+```r
+plot(log10(manhattansales.homes$gross.sqft), log10(manhattansales.homes$sale.price.n))
+```
+
+![](ManhattanSalesDataAnalysis_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
